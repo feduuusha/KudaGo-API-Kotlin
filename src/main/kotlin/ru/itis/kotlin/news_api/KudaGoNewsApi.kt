@@ -32,8 +32,8 @@ suspend fun getNews(count: Int = 100): List<News> {
 // метод для получения самых оцененных и удовлетворяющих периоду времени новостей, конкретного списка новостей
 fun List<News>.getMostRatedNews(count: Int, period: ClosedRange<LocalDate>): List<News> {
     logger.info("Calling the getMostRatedNews method with count=$count and period=$period")
-    return this.stream()
-        .sorted { news1, news2 -> if (news1.rating > news2.rating) -1 else if (news1.rating < news2.rating) 1 else 0 }
+    return this.asSequence()
+        .sortedByDescending { news -> news.rating }
         .filter { news ->
             val newsDate: LocalDate = LocalDateTime.ofEpochSecond(
                 news.publicationDate,
@@ -41,8 +41,8 @@ fun List<News>.getMostRatedNews(count: Int, period: ClosedRange<LocalDate>): Lis
             ).toLocalDate()
             period.start <= newsDate && newsDate <= period.endInclusive
         }
-        .limit(count.toLong())
-        .collect(Collectors.toList())
+        .take(count)
+        .toList()
 }
 
 // метод для получения самых оцененных новостей за конкретный период среди всех новостей сайта
