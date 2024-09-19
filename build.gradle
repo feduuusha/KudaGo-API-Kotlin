@@ -1,0 +1,37 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.0.20'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.20'
+    id 'application'
+}
+
+group = 'ru.itis.kotlin'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.ktor:ktor-client-core:2.3.12")
+    implementation("io.ktor:ktor-client-cio:2.3.12")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    testImplementation("org.assertj:assertj-core:3.25.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:5.5.5")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:5.5.5")
+    runtimeOnly("org.slf4j:slf4j-simple:1.7.36")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
+application {
+    mainClassName = 'MainKt'
+}
